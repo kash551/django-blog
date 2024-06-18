@@ -11,19 +11,16 @@ class PostList(generic.ListView):
 paginate_by = 6
 
 def post_detail(request, slug):
-    """
-    Display an individual :model:`blog.Post`.
 
-    **Context**
+ queryset = Post.objects.filter(status=1)
+ post = get_object_or_404(queryset, slug=slug)
 
-    ``post``
-        An instance of :model:`blog.Post`.
-
-    **Template:**
-
-    :template:`blog/post_detail.html`
-    """
-
+      return render(
+        request,
+        "blog/post_detail.html",
+        {"post": post,
+         "coder": "Kash Hussain"},
+    )
     queryset = Post.objects.filter(status=1)
     post = get_object_or_404(queryset, slug=slug)
 
@@ -32,3 +29,15 @@ def post_detail(request, slug):
         "blog/post_detail.html",
         {"post": post},
     )
+
+def about_me(request):
+    """
+    Renders the About page
+    """
+    about = About.objects.all().order_by('-updated_on').first()
+
+    return render(
+        request,
+        "about/about.html",
+        {"about": about},
+    )    
