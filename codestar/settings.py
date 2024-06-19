@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import says
 import dj_database_url
 if os.path.isfile('env.py'):
     import env
@@ -44,11 +45,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'crispy_forms',
+    'crispy_bootstrap5',
     'django_summernote',
+    'cloudinary',
     'blog',
     'about',
 ]
@@ -56,6 +61,9 @@ INSTALLED_APPS = [
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -103,11 +111,16 @@ WSGI_APPLICATION = 'codestar.wsgi.application'
 DATABASES = {
     'default': dj_database_url.parse(os.environ.get("postgres://ulddcpli3y8:jc1lnbCGucuM@ep-gentle-mountain-a23bxz6h.eu-central-1.aws.neon.tech/dig_cold_giver_64829"))
 }
+
+
 CSRF_TRUSTED_ORIGINS = [
     "https://8000-kash551-djangoblog-ry58mfhizkf.ws-eu114.gitpod.io",
     "https://*.herokuapp.com"
 ]
 
+if 'test' in sys.argv:
+    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
+    
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
